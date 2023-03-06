@@ -15,12 +15,18 @@ type CreateUserDto struct {
 	FullName string `json:"fullname" binding:"required"`
 }
 
+type CreatedUserDto struct {
+	ID       uint   `json:"id"`
+	Username string `json:"username"`
+	FullName string `json:"fullname"`
+}
+
 type UserService interface {
-	CreateUser(createUserDto CreateUserDto) error
+	CreateUser(createUserDto CreateUserDto) (CreatedUserDto, error)
 }
 
 type UserRepository interface {
-	CreateUser(createUserDto CreateUserDto) error
+	CreateUser(createUserDto CreateUserDto) (CreatedUserDto, error)
 	VerifyAvailableUsername(username string) error
 	FindPasswordByUsername(username string) (string, error)
 	FindIdByUsername(username string) (uint, error)
