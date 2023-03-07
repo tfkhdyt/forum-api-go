@@ -11,20 +11,21 @@ import (
 
 // ========================
 
-type UserHandler struct {
+type userHandler struct {
 	userService domain.UserService
 }
 
 // ========================
 
 func New(r *gin.Engine, userService domain.UserService) {
-	handler := &UserHandler{userService}
-	r.POST("/users", handler.Create)
+	var handler domain.UserHandler = &userHandler{userService}
+
+	r.POST("/users", handler.Post)
 }
 
 // ========================
 
-func (u *UserHandler) Create(c *gin.Context) {
+func (u *userHandler) Post(c *gin.Context) {
 	var user domain.CreateUserDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
