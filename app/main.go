@@ -16,6 +16,13 @@ import (
 )
 
 func main() {
+	// db setup
+	db, err := gorm.Open(postgres.Open(config.GetPostgresConnectionString()), &gorm.Config{})
+	if err != nil {
+		log.Fatalln("Failed to connect to db:", err.Error())
+	}
+	db.AutoMigrate(&domain.User{})
+
 	// gin setup
 	r := gin.New()
 	ginMode := os.Getenv("GIN_MODE")
@@ -23,13 +30,6 @@ func main() {
 	if ginMode != "release" {
 		r.Use(gin.Logger())
 	}
-
-	// db setup
-	db, err := gorm.Open(postgres.Open(config.GetPostgresConnectionString()), &gorm.Config{})
-	if err != nil {
-		log.Fatalln("Failed to connect to db:", err.Error())
-	}
-	db.AutoMigrate(&domain.User{})
 
 	userRepo := postgresUserRepo.New(db)
 	userService := userService.New(userRepo)
