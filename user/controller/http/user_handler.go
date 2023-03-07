@@ -40,7 +40,7 @@ func (u *UserHandler) Create(c *gin.Context) {
 		return
 	}
 
-	createdUser, err := u.UserService.CreateUser(user)
+	createdUser, err := u.UserService.Create(user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, ResponseError{err.Error()})
 		return

@@ -22,11 +22,11 @@ type CreatedUserDto struct {
 }
 
 type UserService interface {
-	CreateUser(createUserDto CreateUserDto) (CreatedUserDto, error)
+	Create(createUserDto CreateUserDto) (CreatedUserDto, error)
 }
 
 type UserRepository interface {
-	CreateUser(createUserDto CreateUserDto) (CreatedUserDto, error)
+	Create(createUserDto CreateUserDto) (CreatedUserDto, error)
 	VerifyAvailableUsername(username string) error
 	FindPasswordByUsername(username string) (string, error)
 	FindIdByUsername(username string) (uint, error)

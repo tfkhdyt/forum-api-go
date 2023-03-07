@@ -24,7 +24,7 @@ func (u *UserService) CreateUser(
 
 	createUserDto.Password = hashedPassword
 
-	createdUser, err := u.UserRepo.CreateUser(createUserDto)
+	createdUser, err := u.UserRepo.Create(createUserDto)
 	if err != nil {
 		return domain.CreatedUserDto{}, err
 	}
