@@ -2,12 +2,16 @@ package domain
 
 import "gorm.io/gorm"
 
+// =================
+
 type User struct {
 	gorm.Model
-	Username string `json:"username"`
+	Username string `json:"username" gorm:"unique"`
 	Password string `json:"password"`
 	FullName string `json:"fullname"`
 }
+
+// =================
 
 type CreateUserDto struct {
 	Username string `json:"username" binding:"required"`
@@ -20,6 +24,8 @@ type CreatedUserDto struct {
 	Username string `json:"username"`
 	FullName string `json:"fullname"`
 }
+
+// =================
 
 type UserService interface {
 	Create(createUserDto CreateUserDto) (CreatedUserDto, error)
