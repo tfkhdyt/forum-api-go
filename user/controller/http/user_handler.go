@@ -3,48 +3,46 @@ package http
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/tfkhdyt/forum-api-go/common"
 	"github.com/tfkhdyt/forum-api-go/domain"
+
+	"github.com/gin-gonic/gin"
 )
 
 // ========================
 
-type ResponseError struct {
-	Message string `json:"message"`
-}
-
-type ResponseSuccess struct {
-	CreatedUser domain.CreatedUserDto `json:"createdUser"`
-}
-
-// ========================
-
 type UserHandler struct {
-	UserService domain.UserService
+	userService domain.UserService
 }
 
 // ========================
 
-func (u *UserHandler) New(r *gin.Engine, userService domain.UserService) {
-	handler := &UserHandler{
-		UserService: userService,
-	}
+func New(r *gin.Engine, userService domain.UserService) {
+	handler := &UserHandler{userService}
 	r.POST("/users", handler.Create)
 }
+
+// ========================
 
 func (u *UserHandler) Create(c *gin.Context) {
 	var user domain.CreateUserDto
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, ResponseError{err.Error()})
+		c.JSON(http.StatusBadRequest, common.ResponseWithMessage{
+			Message: err.Error(),
+		})
 		return
 	}
 
-	createdUser, err := u.UserService.Create(user)
+	createdUser, err := u.userService.Create(user)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ResponseError{err.Error()})
+		c.JSON(http.StatusBadRequest, common.ResponseWithMessage{
+			Message: err.Error(),
+		})
 		return
 	}
 
-	c.JSON(http.StatusCreated, ResponseSuccess{createdUser})
+	c.JSON(http.StatusCreated, common.CreateUserResponse{
+		CreatedUser: createdUser,
+	})
 }

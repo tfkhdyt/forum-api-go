@@ -2,18 +2,24 @@ package service
 
 import "github.com/tfkhdyt/forum-api-go/domain"
 
+// ======================
+
 type UserService struct {
-	UserRepo domain.UserRepository
+	userRepo domain.UserRepository
 }
 
-func (u *UserService) New(userRepo domain.UserRepository) domain.UserService {
+// ======================
+
+func New(userRepo domain.UserRepository) domain.UserService {
 	return &UserService{userRepo}
 }
+
+// ======================
 
 func (u *UserService) Create(
 	createUserDto domain.CreateUserDto,
 ) (domain.CreatedUserDto, error) {
-	if err := u.UserRepo.VerifyAvailableUsername(createUserDto.Username); err != nil {
+	if err := u.userRepo.VerifyAvailableUsername(createUserDto.Username); err != nil {
 		return domain.CreatedUserDto{}, err
 	}
 
@@ -24,7 +30,7 @@ func (u *UserService) Create(
 
 	createUserDto.Password = hashedPassword
 
-	createdUser, err := u.UserRepo.Create(createUserDto)
+	createdUser, err := u.userRepo.Create(createUserDto)
 	if err != nil {
 		return domain.CreatedUserDto{}, err
 	}
