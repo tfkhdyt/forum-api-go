@@ -4,19 +4,19 @@ import "github.com/tfkhdyt/forum-api-go/domain"
 
 // ======================
 
-type UserService struct {
+type userService struct {
 	userRepo domain.UserRepository
 }
 
 // ======================
 
 func New(userRepo domain.UserRepository) domain.UserService {
-	return &UserService{userRepo}
+	return &userService{userRepo}
 }
 
 // ======================
 
-func (u *UserService) Create(
+func (u *userService) Create(
 	createUserDto domain.CreateUserDto,
 ) (domain.CreatedUserDto, error) {
 	if err := u.userRepo.VerifyAvailableUsername(createUserDto.Username); err != nil {

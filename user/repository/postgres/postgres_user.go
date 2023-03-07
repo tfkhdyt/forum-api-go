@@ -10,19 +10,19 @@ import (
 
 // ==================================
 
-type PostgresUserRepository struct {
+type postgresUserRepository struct {
 	conn *gorm.DB
 }
 
 // ==================================
 
 func New(conn *gorm.DB) domain.UserRepository {
-	return &PostgresUserRepository{conn}
+	return &postgresUserRepository{conn}
 }
 
 // ==================================
 
-func (p *PostgresUserRepository) Create(
+func (p *postgresUserRepository) Create(
 	createUserDto domain.CreateUserDto,
 ) (domain.CreatedUserDto, error) {
 	user := domain.User{
@@ -42,7 +42,7 @@ func (p *PostgresUserRepository) Create(
 	}, nil
 }
 
-func (p *PostgresUserRepository) VerifyAvailableUsername(username string) error {
+func (p *postgresUserRepository) VerifyAvailableUsername(username string) error {
 	var result struct {
 		username string
 	}
@@ -54,7 +54,7 @@ func (p *PostgresUserRepository) VerifyAvailableUsername(username string) error 
 	return nil
 }
 
-func (p *PostgresUserRepository) FindPasswordByUsername(username string) (string, error) {
+func (p *postgresUserRepository) FindPasswordByUsername(username string) (string, error) {
 	var user domain.User
 
 	if err := p.conn.Select("password").Where("username = ?", username).First(&user).Error; err != nil {
@@ -64,7 +64,7 @@ func (p *PostgresUserRepository) FindPasswordByUsername(username string) (string
 	return user.Password, nil
 }
 
-func (p *PostgresUserRepository) FindIdByUsername(username string) (uint, error) {
+func (p *postgresUserRepository) FindIdByUsername(username string) (uint, error) {
 	var user domain.User
 
 	if err := p.conn.Select("ID").Where("username = ?", username).First(&user).Error; err != nil {
