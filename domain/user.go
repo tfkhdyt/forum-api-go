@@ -1,6 +1,9 @@
 package domain
 
-import "gorm.io/gorm"
+import (
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
+)
 
 // =================
 
@@ -26,6 +29,10 @@ type CreatedUserDto struct {
 }
 
 // =================
+
+type UserHandler interface {
+	Post(r *gin.Context)
+}
 
 type UserService interface {
 	Create(createUserDto CreateUserDto) (CreatedUserDto, error)
