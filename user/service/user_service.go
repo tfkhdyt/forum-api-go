@@ -6,11 +6,11 @@ type UserService struct {
 	UserRepo domain.UserRepository
 }
 
-func (u *UserService) New(userRepo domain.UserRepository) *UserService {
+func (u *UserService) New(userRepo domain.UserRepository) domain.UserService {
 	return &UserService{userRepo}
 }
 
-func (u *UserService) CreateUser(
+func (u *UserService) Create(
 	createUserDto domain.CreateUserDto,
 ) (domain.CreatedUserDto, error) {
 	if err := u.UserRepo.VerifyAvailableUsername(createUserDto.Username); err != nil {
