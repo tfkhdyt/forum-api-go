@@ -42,7 +42,7 @@ type AuthService interface {
 }
 
 type AuthRepository interface {
-	Create(token string) error
+	CreateToken(token string) error
 	CheckTokenAvailability(token string) error
 	DeleteToken(token string) error
 }
