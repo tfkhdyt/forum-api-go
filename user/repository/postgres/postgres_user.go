@@ -55,21 +55,25 @@ func (p *postgresUserRepository) VerifyAvailableUsername(username string) error 
 }
 
 func (p *postgresUserRepository) FindPasswordByUsername(username string) (string, error) {
-	var user domain.User
+	var result struct {
+		password string
+	}
 
-	if err := p.conn.Select("password").Where("username = ?", username).First(&user).Error; err != nil {
+	if err := p.conn.Model(&domain.User{}).Where("username = ?", username).First(&result).Error; err != nil {
 		return "", err
 	}
 
-	return user.Password, nil
+	return result.password, nil
 }
 
 func (p *postgresUserRepository) FindIdByUsername(username string) (uint, error) {
-	var user domain.User
+	var result struct {
+		id uint
+	}
 
-	if err := p.conn.Select("ID").Where("username = ?", username).First(&user).Error; err != nil {
+	if err := p.conn.Model(&domain.User{}).Where("username = ?", username).First(&result).Error; err != nil {
 		return 0, err
 	}
 
-	return user.ID, nil
+	return result.id, nil
 }
