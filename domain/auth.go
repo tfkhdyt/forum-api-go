@@ -37,6 +37,12 @@ type AuthHandler interface {
 type AuthService interface {
 	Login(loginDto LoginLogoutDto) (Credentials, error)
 	Logout(logoutDto LoginLogoutDto) error
-	Refresh(refreshDto DeleteRefreshAuthDto) (string, error)
-	Delete(deleteAuthDto DeleteRefreshAuthDto) error
+	RefreshToken(refreshDto DeleteRefreshAuthDto) (string, error)
+	DeleteToken(deleteAuthDto DeleteRefreshAuthDto) error
+}
+
+type AuthRepository interface {
+	Create(token string) error
+	CheckTokenAvailability(token string) error
+	DeleteToken(token string) error
 }
