@@ -21,7 +21,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("Failed to connect to db:", err.Error())
 	}
-	db.AutoMigrate(&domain.User{})
+	db.AutoMigrate(&domain.User{}, &domain.Auth{})
 
 	// gin setup
 	r := gin.New()
