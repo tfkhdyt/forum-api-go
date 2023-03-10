@@ -12,7 +12,7 @@ type Auth struct {
 	RefreshToken string `json:"refreshToken" gorm:"unique"`
 }
 
-type LoginLogoutDto struct {
+type LoginDto struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required,min=8"`
 }
@@ -22,7 +22,7 @@ type Credentials struct {
 	RefreshToken string `json:"refreshToken"`
 }
 
-type DeleteRefreshAuthDto struct {
+type LogoutRefreshDto struct {
 	RefreshToken string `json:"refreshToken" binding:"required,jwt"`
 }
 
@@ -35,10 +35,9 @@ type AuthHandler interface {
 }
 
 type AuthService interface {
-	Login(loginDto LoginLogoutDto) (Credentials, error)
-	Logout(logoutDto LoginLogoutDto) error
-	RefreshToken(refreshDto DeleteRefreshAuthDto) (string, error)
-	DeleteToken(deleteAuthDto DeleteRefreshAuthDto) error
+	Login(loginDto LoginDto) (Credentials, error)
+	Logout(logoutDto LogoutRefreshDto) error
+	RefreshToken(refreshDto LogoutRefreshDto) (string, error)
 }
 
 type AuthRepository interface {
