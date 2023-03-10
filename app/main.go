@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/tfkhdyt/forum-api-go/config"
 	"github.com/tfkhdyt/forum-api-go/domain"
 	httpUserController "github.com/tfkhdyt/forum-api-go/user/controller/http"
@@ -14,6 +15,12 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatalln("Error loading .env file")
+	}
+}
 
 func main() {
 	// db setup

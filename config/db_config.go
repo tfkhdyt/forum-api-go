@@ -2,10 +2,7 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 // ====================
@@ -16,14 +13,6 @@ type dbConfig struct {
 	password string
 	name     string
 	port     string
-}
-
-// ====================
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatalln("Error loading .env file")
-	}
 }
 
 // ====================
