@@ -10,5 +10,5 @@ type JwtClaims struct {
 type TokenService interface {
 	CreateAccessToken(userId uint) (string, error)
 	CreateRefreshToken(userId uint) (string, error)
-	DecodePayload(token string) (string, error)
+	DecodePayload(token string) (uint, error)
 }

@@ -54,7 +54,7 @@ func (j *jwtTokenService) CreateRefreshToken(userId uint) (string, error) {
 	return ss, nil
 }
 
-func (j *jwtTokenService) DecodePayload(tokenString string) (string, error) {
+func (j *jwtTokenService) DecodePayload(tokenString string) (uint, error) {
 	token, err := jwt.ParseWithClaims(
 		tokenString,
 		&domain.JwtClaims{},
@@ -64,8 +64,8 @@ func (j *jwtTokenService) DecodePayload(tokenString string) (string, error) {
 	)
 
 	if claims, ok := token.Claims.(*domain.JwtClaims); ok && token.Valid {
-		return claims.ID, nil
+		return claims.UserId, nil
 	}
 
-	return "", err
+	return 0, err
 }
